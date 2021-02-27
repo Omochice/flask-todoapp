@@ -10,10 +10,6 @@ class TestTodoAPI(BaseTestCase):
                              data=json.dumps(post_item),
                              content_type="application/json")
 
-    def test_get_index(self):
-        response = self.app.get("/")
-        self.assert_200(response)
-
     def test_post_todo(self):
         response = self.post_one("test post", 1)
         self.assert_status(response, 200)
@@ -30,6 +26,14 @@ class TestTodoAPI(BaseTestCase):
 
     def test_show_one(self):
         focus_id = 1
-        res = self.post_one("foo", focus_id)
+        _ = self.post_one("foo", focus_id)
         res = self.app.get(f"/{focus_id}")
         assert (res.is_json)
+
+    def test_show_all(self):
+        _ = self.post_one("one", 1)
+        _ = self.post_one("two", 2)
+        res = self.app.get(f"/")
+        self.assert_status(res, 200)
+        print(res.json, type(res.json))
+        assert (False)
