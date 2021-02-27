@@ -13,3 +13,6 @@ flask-testing = "*"
 
 [requires]
 python_version = "3.9"
+
+[scripts]
+test = "python -m pytest"
