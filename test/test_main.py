@@ -31,10 +31,20 @@ class TestTodoAPI(BaseTestCase):
         assert (res.is_json)
 
     def test_show_all(self):
-        res = self.app.get(f"/")
+        res = self.app.get("/")
         assert (type(res.json) == list)
         _ = self.post_one("one", 1)
         _ = self.post_one("two", 2)
         res = self.app.get(f"/")
         self.assert_status(res, 200)
         assert (len(res.json) == 2)
+
+    def test_update(self):
+        _ = self.post_one("old name", 1)
+        new_title = "new name"
+        res = self.app.put(1, new_title)
+        self.assert_status(res, 200)
+        res = self.app.get("/1")
+        assert (res.json["title"] == new_title)
+
+        pass
