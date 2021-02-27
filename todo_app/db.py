@@ -19,7 +19,6 @@ class TodoAppDbClient:
     def insert(self, query: dict) -> Optional[str]:
         dt_now = datetime.now().strftime("%Y-%m-%d %H:%M")
         rst = self.todos.find_one({"id": query["id"]})
-        print(type(rst))
         if rst is not None:
             return "The id exists already"
         # else:

@@ -5,7 +5,7 @@ app = Flask(__name__)
 client = TodoAppDbClient()
 
 
-@app.route("/")
+@app.route("/", methods=["GET"])
 def index():
     return "index page"
 
@@ -14,12 +14,19 @@ def index():
 def store_data():
     data = request.json
     err = client.insert({"title": data["title"], "id": data["id"]})
-    print(client.todos.find_one({"id": data["id"]}))
     response = jsonify()
     if err is not None:
-        print([f for f in client.todos.find({})])
         abort(409, err)
     return response, 200
+
+
+@app.route("/<int:id>", methods=["GET"])
+def show_one(id: int):
+    data = (client.fetch_one(id=id))
+    if data is None:
+        abort(404)
+    del data["_id"]
+    return jsonify(data)
 
 
 if __name__ == "__main__":
