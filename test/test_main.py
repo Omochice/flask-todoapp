@@ -4,32 +4,29 @@ import json
 
 
 class TestTodoAPI(BaseTestCase):
+    def post_one(self, title, id):
+        post_item = {"title": title, "id": id}
+        return self.app.post("/",
+                             data=json.dumps(post_item),
+                             content_type="application/json")
+
     def test_get_index(self):
         response = self.app.get("/")
         self.assert_200(response)
 
     def test_post_todo(self):
-        post_param = {"title": "go to school", "id": 1}
-        response = self.app.post("/",
-                                 data=json.dumps(post_param),
-                                 content_type="application/json")
+        response = self.post_one("test post", 1)
         self.assert_status(response, 200)
 
     def test_post_some_query(self):
-        post_param = {"title": "origin one", "id": 1}    # this will be stored
-        response = self.app.post("/",
-                                 data=json.dumps(post_param),
-                                 content_type="application/json")
-        self.assert_status(response, 200)
+        res = self.post_one("this will be stored", 1)
+        self.assert_status(res, 200)
 
-        post_param = {"title": "some one", "id": 1}    # this will be rejected
-        response = self.app.post("/",
-                                 data=json.dumps(post_param),
-                                 content_type="application/json")
-        self.assert_status(response, 409)
+        res = self.post_one("this will be rejected", 1)
+        self.assert_status(res, 409)
 
-        post_param = {"title": "other one", "id": 2}    # this will be stored
-        response = self.app.post("/",
-                                 data=json.dumps(post_param),
-                                 content_type="application/json")
-        self.assert_status(response, 200)
+        res = self.post_one("this will be stored", 2)
+        self.assert_status(res, 200)
+
+    def test_show_one(self):
+        pass
