@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, abort
 from .db import TodoAppDbClient
 
 app = Flask(__name__)
@@ -13,8 +13,12 @@ def index():
 @app.route("/", methods=["POST"])
 def store_data():
     data = request.json
-    client.insert({"title": data["title"], "id": data["id"]})
+    err = client.insert({"title": data["title"], "id": data["id"]})
+    print(client.todos.find_one({"id": data["id"]}))
     response = jsonify()
+    if err is not None:
+        print([f for f in client.todos.find({})])
+        abort(409, err)
     return response, 200
 
 

@@ -1,5 +1,6 @@
 from pymongo import MongoClient
 from datetime import datetime
+from typing import Optional
 
 
 class TodoAppDbClient:
@@ -15,14 +16,26 @@ class TodoAppDbClient:
     def fetch_all(self) -> list:
         return self.todos.find()
 
-    def insert(self, query: dict) -> None:
+    def insert(self, query: dict) -> Optional[str]:
         dt_now = datetime.now().strftime("%Y-%m-%d %H:%M")
+        rst = self.todos.find_one({"id": query["id"]})
+        print(type(rst))
+        if rst is not None:
+            return "The id exists already"
+        # else:
         self.todos.insert_one({
             "id": query["id"],
             "title": query["title"],
             "create_at": dt_now,
             "update_at": dt_now
         })
+
+    def remove(self):
+        pass
+
+    def remove_all(self):
+        self.todos.delete_many({})
+        # pass
 
     def update(self, id: int) -> None:
         pass
