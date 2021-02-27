@@ -9,7 +9,9 @@ class TestTodoAPI(BaseTestCase):
         self.assert_200(response)
 
     def test_post_todo(self):
-        post_param = "go to school"
+        post_param = {"title": "go to school", "id": 1}
 
-        response = self.app.post("/", data=post_param, content_type="text")
+        response = self.app.post("/",
+                                 data=json.dumps(post_param),
+                                 content_type="application/json")
         self.assert_status(response, 200)
