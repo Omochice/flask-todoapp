@@ -15,11 +15,11 @@ class TodoAppDbClient:
     def fetch_all(self) -> list:
         return self.todos.find()
 
-    def insert(self, id: int, name: str) -> None:
+    def insert(self, query: dict) -> None:
         dt_now = datetime.now().strftime("%Y-%m-%d %H:%M")
         self.todos.insert_one({
-            "id": id,
-            "title": name,
+            "id": query["id"],
+            "title": query["title"],
             "create_at": dt_now,
             "update_at": dt_now
         })
