@@ -14,7 +14,7 @@ class TodoAppDbClient:
         return self.todos.find_one({"id": id})
 
     def fetch_all(self) -> list:
-        return self.todos.find()
+        return [d for d in self.todos.find()]
 
     def insert(self, query: dict) -> Optional[str]:
         dt_now = datetime.now().strftime("%Y-%m-%d %H:%M")

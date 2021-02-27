@@ -7,7 +7,10 @@ client = TodoAppDbClient()
 
 @app.route("/", methods=["GET"])
 def index():
-    return "index page"
+    data = client.fetch_all()
+    for d in data:
+        del d["_id"]
+    return jsonify(data)
 
 
 @app.route("/", methods=["POST"])
