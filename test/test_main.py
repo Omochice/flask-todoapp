@@ -32,5 +32,4 @@ class TestTodoAPI(BaseTestCase):
         focus_id = 1
         res = self.post_one("foo", focus_id)
         res = self.app.get(f"/{focus_id}")
-        print(res)
-        self.assert_equal(False == True)
+        assert (res.is_json)
