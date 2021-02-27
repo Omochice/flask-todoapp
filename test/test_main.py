@@ -29,4 +29,8 @@ class TestTodoAPI(BaseTestCase):
         self.assert_status(res, 200)
 
     def test_show_one(self):
-        pass
+        focus_id = 1
+        res = self.post_one("foo", focus_id)
+        res = self.app.get(f"/{focus_id}")
+        print(res)
+        self.assert_equal(False == True)
