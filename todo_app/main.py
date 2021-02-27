@@ -32,5 +32,11 @@ def show_one(id: int):
     return jsonify(data)
 
 
+@app.route("/", methods=["PUT"])
+def update():
+    client.update(request.json)
+    return jsonify(), 200
+
+
 if __name__ == "__main__":
     app.run(debug=True)

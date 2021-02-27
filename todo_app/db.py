@@ -3,6 +3,10 @@ from datetime import datetime
 from typing import Optional
 
 
+def get_now():
+    return datetime.now().strftime("%Y-%m-%d %H:%M")
+
+
 class TodoAppDbClient:
     def __init__(self) -> None:
         client = MongoClient()
@@ -17,7 +21,7 @@ class TodoAppDbClient:
         return [d for d in self.todos.find()]
 
     def insert(self, query: dict) -> Optional[str]:
-        dt_now = datetime.now().strftime("%Y-%m-%d %H:%M")
+        dt_now = get_now()
         rst = self.todos.find_one({"id": query["id"]})
         if rst is not None:
             return "The id exists already"
@@ -34,7 +38,11 @@ class TodoAppDbClient:
 
     def remove_all(self):
         self.todos.delete_many({})
-        # pass
 
-    def update(self, id: int) -> None:
-        pass
+    def update(self, replace: dict) -> None:
+        self.todos.update_one(
+            {"id": replace["id"]},
+            {"$set": {
+                "title": replace["title"],
+                "update_at": get_now()
+            }})
