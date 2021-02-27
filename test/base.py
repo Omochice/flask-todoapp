@@ -1,5 +1,6 @@
 from flask_testing import TestCase
 from todo_app.main import app
+from todo_app.db import TodoAppDbClient
 
 
 class BaseTestCase(TestCase):
@@ -11,4 +12,5 @@ class BaseTestCase(TestCase):
         self.app = self.app.test_client()
 
     def tearDown(self):
-        pass
+        client = TodoAppDbClient()
+        client.remove_all()
