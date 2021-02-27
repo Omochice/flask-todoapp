@@ -42,9 +42,12 @@ class TestTodoAPI(BaseTestCase):
     def test_update(self):
         _ = self.post_one("old name", 1)
         new_title = "new name"
-        res = self.app.put(1, new_title)
+        res = self.app.put("/",
+                           data=json.dumps({
+                               "title": new_title,
+                               "id": 1
+                           }),
+                           content_type="application/json")
         self.assert_status(res, 200)
         res = self.app.get("/1")
         assert (res.json["title"] == new_title)
-
-        pass
