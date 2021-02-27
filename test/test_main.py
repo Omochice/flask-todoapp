@@ -31,9 +31,10 @@ class TestTodoAPI(BaseTestCase):
         assert (res.is_json)
 
     def test_show_all(self):
+        res = self.app.get(f"/")
+        assert (type(res.json) == list)
         _ = self.post_one("one", 1)
         _ = self.post_one("two", 2)
         res = self.app.get(f"/")
         self.assert_status(res, 200)
-        print(res.json, type(res.json))
-        assert (False)
+        assert (len(res.json) == 2)
