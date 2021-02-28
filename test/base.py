@@ -10,7 +10,7 @@ class BaseTestCase(TestCase):
 
     def setUp(self):
         self.app = self.app.test_client()
+        self.client = TodoAppDbClient()
 
     def tearDown(self):
-        client = TodoAppDbClient()
-        client.delete_all()
+        self.client.delete_all()
