@@ -51,3 +51,13 @@ class TestTodoAPI(BaseTestCase):
         self.assert_status(res, 200)
         res = self.app.get("/1")
         assert (res.json["title"] == new_title)
+
+    def test_delete(self):
+        res = self.post_one("this will remove", 1)
+        self.assert_status(res, 200)
+        res = self.app.delete("/",
+                              data=json.dumps({"id": 1}),
+                              content_type="application/json")
+        self.assert_status(res, 202)
+        res = self.app.get("/1")
+        self.assert_status(res, 404)
