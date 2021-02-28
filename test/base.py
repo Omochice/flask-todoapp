@@ -13,4 +13,4 @@ class BaseTestCase(TestCase):
 
     def tearDown(self):
         client = TodoAppDbClient()
-        client.remove_all()
+        client.delete_all()

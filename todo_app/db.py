@@ -38,7 +38,7 @@ class TodoAppDbClient:
         if delete_result.deleted_count == 0:
             return "The request id is not exist"
 
-    def remove_all(self):
+    def delete_all(self):
         self.todos.delete_many({})
 
     def update(self, replace: dict) -> None:
