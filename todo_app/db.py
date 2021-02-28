@@ -33,8 +33,10 @@ class TodoAppDbClient:
             "update_at": dt_now
         })
 
-    def remove(self):
-        pass
+    def delete(self, query: dict) -> Optional[str]:
+        delete_result = self.todos.delete_one(query)
+        if delete_result.deleted_count == 0:
+            return "The request id is not exist"
 
     def remove_all(self):
         self.todos.delete_many({})

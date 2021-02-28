@@ -25,7 +25,7 @@ def store_data():
 
 @app.route("/<int:id>", methods=["GET"])
 def show_one(id: int):
-    data = (client.fetch_one(id=id))
+    data = client.fetch_one(id=id)
     if data is None:
         abort(404)
     del data["_id"]
@@ -36,6 +36,14 @@ def show_one(id: int):
 def update():
     client.update(request.json)
     return jsonify(), 200
+
+
+@app.route("/", methods=["DELETE"])
+def delete():
+    res = client.delete(request.json)
+    if res is not None:
+        return abort(404, res)
+    return jsonify(), 202
 
 
 if __name__ == "__main__":
